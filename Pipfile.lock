@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3c0dd8efe5bbe6bb4b20b966223f893d2869191721a139792e5a59e6d77394a9"
+            "sha256": "397c737e3298393bf75628dff245778feb333fc4fb0179f7a89f10ec98001275"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -75,12 +75,27 @@
             "index": "pypi",
             "version": "==3.5.3"
         },
+        "six": {
+            "hashes": [
+                "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259",
+                "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"
+            ],
+            "version": "==1.15.0"
+        },
         "starlette": {
             "hashes": [
                 "sha256:04fe51d86fd9a594d9b71356ed322ccde5c9b448fc716ac74155e5821a922f8d",
                 "sha256:0fb4b38d22945b46acb880fedee7ee143fd6c0542992501be8c45c0ed737dd1a"
             ],
             "version": "==0.13.4"
+        },
+        "structlog": {
+            "hashes": [
+                "sha256:7a48375db6274ed1d0ae6123c486472aa1d0890b08d314d2b016f3aa7f35990b",
+                "sha256:8a672be150547a93d90a7d74229a29e765be05bd156a35cdcc527ebf68e9af92"
+            ],
+            "index": "pypi",
+            "version": "==20.1.0"
         },
         "uvicorn": {
             "hashes": [

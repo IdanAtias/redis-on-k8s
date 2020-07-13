@@ -10,6 +10,7 @@ fastapi = "==0.59.0"
 uvicorn = "==0.7.1"
 redis = "==3.5.3"
 click = "==7.1.2"
+structlog = "==20.1.0"
 
 [requires]
 python_version = "3.7"
