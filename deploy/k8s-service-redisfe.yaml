@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redisfe
+  labels:
+    app: redisfe
+spec:
+  selector:
+    app: redisfe
+  ports:
+  - name: http
+    port: 7042
+    targetPort: http
+    protocol: TCP
