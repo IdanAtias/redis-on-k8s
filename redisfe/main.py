@@ -23,7 +23,7 @@ def create_app() -> FastAPI:
 
 
 def create_server(app: FastAPI) -> uvicorn.Server:
-    config = uvicorn.Config(app, port=REDIS_FE_PORT)
+    config = uvicorn.Config(app, host="0.0.0.0", port=REDIS_FE_PORT)
     config.load()
     return uvicorn.Server(config=config)
 
