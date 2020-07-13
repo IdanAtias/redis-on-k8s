@@ -7,8 +7,9 @@ verify_ssl = true
 
 [packages]
 fastapi = "==0.59.0"
+uvicorn = "==0.7.1"
 redis = "==3.5.3"
-pipfile = "*"
+click = "==7.1.2"
 
 [requires]
 python_version = "3.7"
