@@ -34,7 +34,3 @@ data:
             sleep 1
         done
         redis-sentinel /redis-config/sentinel.conf
-
-
-
-
