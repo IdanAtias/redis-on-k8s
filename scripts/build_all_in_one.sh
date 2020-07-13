@@ -14,7 +14,7 @@ OUTPUT_FILE="$PATH_TO_DEPLOY_DIR/k8s-all-in-one-redis.yaml"
 
 touch $OUTPUT_FILE
 
-cat $PATH_TO_DEPLOY_DIR/k8s-configmap-redis-config.yaml >> $OUTPUT_FILE
+cat $PATH_TO_DEPLOY_DIR/k8s-configmap-redis-config.yaml > $OUTPUT_FILE
 echo "---" >> $OUTPUT_FILE
 
 cat $PATH_TO_DEPLOY_DIR/k8s-service-redis.yaml >> $OUTPUT_FILE
@@ -24,6 +24,15 @@ cat $PATH_TO_DEPLOY_DIR/k8s-statefulset-redis.yaml >> $OUTPUT_FILE
 echo "---" >> $OUTPUT_FILE
 
 cat $PATH_TO_DEPLOY_DIR/k8s-deployment-contour.yaml >> $OUTPUT_FILE
+echo "---" >> $OUTPUT_FILE
+
+cat $PATH_TO_DEPLOY_DIR/k8s-service-redisfe.yaml >> $OUTPUT_FILE
+echo "---" >> $OUTPUT_FILE
+
+cat $PATH_TO_DEPLOY_DIR/k8s-deployment-redisfe.yaml >> $OUTPUT_FILE
+echo "---" >> $OUTPUT_FILE
+
+cat $PATH_TO_DEPLOY_DIR/k8s-ingress-redisfe.yaml >> $OUTPUT_FILE
 echo "---" >> $OUTPUT_FILE
 
 echo "done"
