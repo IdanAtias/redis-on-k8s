@@ -5,8 +5,8 @@ import click
 import uvicorn
 from fastapi import FastAPI
 
-from . import healthz
 from . import api
+from . import healthz
 
 logger = structlog.getLogger("redis-fe")
 
@@ -17,7 +17,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="redis-fe",
     )
-    app.add_api_route(path="/healthz", endpoint=healthz.healthz, summary="redis-fe healthz endpoint")
+    app.include_router(healthz.router, prefix="/healthz")
     app.include_router(api.router, prefix="/api")
     return app
 
