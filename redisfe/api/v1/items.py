@@ -1,4 +1,3 @@
-from typing import List
 import structlog
 
 from ...models import (
