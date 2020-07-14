@@ -2,13 +2,15 @@ from datetime import datetime
 import structlog
 import asyncio
 import aiohttp
-
+import os
 
 logger = structlog.get_logger("test")
 
 NUM_ITEMS = 100
 
-URL = "http://35.247.26.41/api/v1/items/{key}"
+EIP = os.environ["EIP"]  # external ip should be set as an env variable
+BASE_URL = f"http://{EIP}/api/v1"
+URL = BASE_URL + "/items/{key}"
 
 
 async def write():
