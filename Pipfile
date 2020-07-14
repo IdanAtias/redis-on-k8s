@@ -12,6 +12,7 @@ redis = "==3.5.3"
 click = "==7.1.2"
 structlog = "==20.1.0"
 pydantic = "==1.6"
+aiohttp = "==3.6.2"
 
 [requires]
 python_version = "3.7"
