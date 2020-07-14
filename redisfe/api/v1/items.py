@@ -8,7 +8,7 @@ from ...models import (
     ListItemsResponse,
 )
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from redis.sentinel import Sentinel
 
 router = APIRouter()
@@ -39,6 +39,8 @@ def get(key: str):
     logger.info("Getting redis item", key=key)
     slave = sentinel.slave_for("redis")  # use slave for reads
     value = slave.get(key)
+    if value is None:
+        raise HTTPException(status_code=404, detail="Item not found")
     logger.info("Got redis item", key=key, value=value)
     return GetItemResponse(key=key, value=value)
 
