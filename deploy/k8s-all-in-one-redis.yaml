@@ -28,7 +28,9 @@ data:
         fi
     sentinel.sh: |
         #!/bin/bash
-        cp /redis-config-src/*.* /redis-config
+        # sentinel.conf is used by the system for saving current state and it is reloaded in case of restarts
+        # sentinel won't start if no conf file is given or if the conf file path is not writable.
+        cp /redis-config-read-only/*.* /redis-config  # copy conf from r/o configmap volume to regular (emptydir vol)
         while ! ping -c 1 redis-0.redis; do
             echo 'Waiting for server'
             sleep 1
@@ -74,17 +76,16 @@ spec:
             name: config
           - mountPath: /redis-data
             name: data
-       - command: [sh, -c, source /redis-config-src/sentinel.sh]
+       - command: [sh, -c, source /redis-config-read-only/sentinel.sh]
          image: redis:4.0.11-alpine
          name: sentinel
          volumeMounts:
-          - mountPath: /redis-config-src
+          - mountPath: /redis-config-read-only
             name: config
           - mountPath: /redis-config
             name: data
       volumes:
        - configMap:
-           defaultMode: 420
            name: redis-config
          name: config
        - emptyDir: {}
