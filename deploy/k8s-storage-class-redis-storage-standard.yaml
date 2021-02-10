@@ -1,0 +1,13 @@
+# Using StorageClass we can keep our app (this case, redis) deployment files the same even in case of migration to another env
+# For example, if we switch from AWS to Azure we only need to change the provisioner & parameters fields
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: redis-storage-standard
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Retain  # default is delete
+parameters:
+  type: gp2
+  fsType: ext4
