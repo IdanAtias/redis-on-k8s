@@ -37,5 +37,12 @@ spec:
        - configMap:
            name: redis-config
          name: config
-       - emptyDir: {}
-         name: data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "redis-storage-standard"
+        resources:
+          requests:
+            storage: 1Gi
