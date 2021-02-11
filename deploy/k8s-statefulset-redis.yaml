@@ -42,7 +42,7 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: "redis-storage-standard"
+        storageClassName: "kaminario-dedup"
         resources:
           requests:
             storage: 1Gi
