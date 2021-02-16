@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: redis-config
+data:
+    master.conf: |
+        bind 0.0.0.0
+        port 6379
+        dir /redis-data
+    slave.conf: |
+        bind 0.0.0.0
+        port 6379
+        dir .
+        slaveof redis-0.redis 6379
+    sentinel.conf: |
+        bind 0.0.0.0
+        port 26379
+        sentinel monitor redis redis-0.redis 6379 2
+        sentinel parallel-syncs redis 1
+        sentinel down-after-milliseconds redis 10000
+        sentinel failover-timeout redis 20000
+    init.sh: |
+        #!/bin/bash
+        if [[ ${HOSTNAME} == 'redis-0' ]]; then
+            redis-server /redis-config/master.conf
+        else
+            redis-server /redis-config/slave.conf
+        fi
+    sentinel.sh: |
+        #!/bin/bash
+        # sentinel.conf is used by the system for saving current state and it is reloaded in case of restarts
+        # sentinel won't start if no conf file is given or if the conf file path is not writable.
+        cp /redis-config-read-only/*.* /redis-config  # copy conf from r/o configmap volume to regular (emptydir vol)
+        while ! ping -c 1 redis-0.redis; do
+            echo 'Waiting for server'
+            sleep 1
+        done
+        redis-sentinel /redis-config/sentinel.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis
+spec:
+    ports:
+        - port: 6379
+          name: peer
+    clusterIP: None # we need a "headless" service to manage our DNS entries for the StatefulSet
+    selector:
+        app: redis
+---
+apiVersion: apps/v1 
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  replicas: 3
+  serviceName: "redis"
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+       - command: [sh, -c, source /redis-config/init.sh ]
+         image: redis:4.0.11-alpine
+         name: redis
+         ports:
+          - containerPort: 6379
+            name: redis
+         volumeMounts:
+          - mountPath: /redis-config
+            name: config
+          - mountPath: /redis-data
+            name: data
+       - command: [sh, -c, source /redis-config-read-only/sentinel.sh]
+         image: redis:4.0.11-alpine
+         name: sentinel
+         volumeMounts:
+          - mountPath: /redis-config-read-only
+            name: config
+          - mountPath: /redis-config
+            name: data
+      volumes:
+       - configMap:
+           name: redis-config
+         name: config
+       - emptyDir: {}
+         name: data
