@@ -1,3 +1,6 @@
+**Detailed information in [this blog post](https://idan-atias.medium.com/redis-on-kubernetes-deployment-overview-8f6220d94b4f).**
+
+
 Hands on deploying Redis in Kubernetes
 ======================================
 
